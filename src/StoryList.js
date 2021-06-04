@@ -1,11 +1,12 @@
 import React from "react";
 import Story from './Story';
+import SearchForm from './SearchForm';
 import axios from 'axios'
 
 class StoryList extends React.Component {
 
 	BASE_URL = "https://hn.algolia.com/api/v1/search?query=";
-	state = { hits: []};
+	state = { hits: [], searchTerm: "react"};
 
 
 
@@ -15,13 +16,22 @@ class StoryList extends React.Component {
 	}
 
 	async componentDidMount(){
-		this.getStoriesFromApi("react");
+		this.getStoriesFromApi(this.state.searchTerm);
+	}
+
+	async componentDidUpdate(){
+		this.getStoriesFromApi(this.state.searchTerm);
+	}
+
+	search = (searchTerm) => {
+		this.setState({searchTerm: searchTerm})
 	}
 
   render() {
 		return(
-			<div>
-			{this.state.hits.map( h => <Story title={h.title}/>)}
+			<div className="StoryList">
+			<SearchForm searchTerm={this.state.searchTerm} search={this.search}/>
+			{this.state.hits.map( h => <Story key={h.objectID} title={h.title}/>)}
 			</div>
 		)
 	}
