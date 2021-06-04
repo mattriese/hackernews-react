@@ -1,39 +1,45 @@
-import React from "react";
+import React from 'react';
+
+/**SearchForm component:
+ *
+ * Props: search (function)
+ * 				searchTerm (string)
+ *
+ * State: searchTerm (string)
+ *
+ * StoryList -> SearchForm
+ * 					 -> Story
+ */
 
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { searchTerm: this.props.searchTerm };
   }
-  
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log("SearchTerm is --->", this.searchTerm);
-    console.log("this is", this);
-    this.props.search(this.searchTerm);
-  }
+    this.props.search(this.state.searchTerm);
+  };
 
   handleChange = (evt) => {
-    console.log("search value is --->", this.state.searchTerm)
+    console.log('search value is --->', this.state.searchTerm);
     this.setState({ searchTerm: evt.target.value });
-  }
+  };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input 
+        <input
           name="search-term"
           type="text"
-          value={this.state.searchTerm} 
+          value={this.state.searchTerm}
           onChange={this.handleChange}
           placeholder="Search for stories"
-          />
-        <button>
-          Search!
-        </button>
+        />
+        <button>Search!</button>
       </form>
-    )
+    );
   }
 }
 
